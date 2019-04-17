@@ -9,7 +9,7 @@ class Main {
     public static void main(String[] args)throws Exception {
       String userDate = UserInput.getInput();
       String dateArray[] = ConvertDate.converter(userDate);
-      String c1 = OrdinalNumber.converter(dateArray[0]);
+      String c1 = OrdinalNumber.converter(dateArray[1]);
       String c2 = dateArray[0] + " the " + dateArray[1] + c1 + " of " + dateArray[2] + " " + dateArray[3] ;
       System.out.println(c2);
     }
@@ -33,8 +33,7 @@ class OrdinalNumber {
 // Accepts user's date and returns Day, Month & year
 class ConvertDate {
     public static String[] converter(String userDate)throws Exception{  
-      Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(userDate);  
-      
+      Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(userDate);      
       String[] dateArray = new String[4];
       SimpleDateFormat weekDay = new SimpleDateFormat("EEEE"); 
       SimpleDateFormat day = new SimpleDateFormat("d");      
@@ -70,8 +69,8 @@ class UserInput {
 class ValidateDate {
   
   static boolean validDateFormat(String userDate){
-    boolean b3 = Pattern.matches("\\d\\d-\\d\\d-\\d\\d\\d\\d", userDate);
-    return b3;
+    boolean valid = Pattern.matches("\\d\\d-\\d\\d-\\d\\d\\d\\d", userDate);
+    return valid;
   }
 
   static boolean dayMonthCheck(String userDate){
@@ -84,14 +83,14 @@ class ValidateDate {
       int regexInt = Integer.parseInt(matcher.group());//Converts String to int
       regexList.add(regexInt);
     }
-    boolean b3 = true;
+    boolean valid = true;
     if(regexList.get(0) > 31 
         || regexList.get(0) == 0 
         || regexList.get(1) > 12 
         || regexList.get(1) == 0){
-      b3 = false;
+      valid = false;
     }
-    return b3;    
+    return valid;    
   }
 
 }
