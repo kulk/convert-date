@@ -2,7 +2,8 @@ import java.awt.*;
 import java.util.Scanner;
 import java.util.regex.*;
 import java.text.SimpleDateFormat;  
-import java.util.Date; 
+import java.util.Date;
+import java.util.ArrayList;
 
 class Main {
     public static void main(String[] args)throws Exception {
@@ -54,20 +55,43 @@ class UserInput {
         while(true) {
             System.out.println("Enter a date (dd-mm-yyyy): ");
             userDate = myObj.nextLine();
-            boolean z = ValidateDate.validator(userDate);
-            if(z == true){
+            boolean z1 = ValidateDate.validDateFormat(userDate);
+            boolean z2 = ValidateDate.dayMonthCheck(userDate);
+            if(z1 == true && z2 == true){
                 break;
             }else {
-                System.out.println("Please use format dd-mm-yyyy: ");
+                System.out.println("Date not valid. Please use format dd-mm-yyyy: ");
             }
         }
         return userDate;
     }
 }
-// Validates user input has correct date format (Improve function later)
+// Validates user input has correct date format
 class ValidateDate {
-  static boolean validator(String userDate){
+  
+  static boolean validDateFormat(String userDate){
     boolean b3 = Pattern.matches("\\d\\d-\\d\\d-\\d\\d\\d\\d", userDate);
     return b3;
   }
+
+  static boolean dayMonthCheck(String userDate){
+    String s2 = userDate.replaceAll("-", "");
+    Pattern pattern = Pattern.compile("\\d\\d");
+    Matcher matcher = pattern.matcher(s2);
+
+    ArrayList<Integer> regexList = new ArrayList<>();
+    while(matcher.find()){
+      int regexInt = Integer.parseInt(matcher.group());//Converts String to int
+      regexList.add(regexInt);
+    }
+    boolean b3 = true;
+    if(regexList.get(0) > 31 
+        || regexList.get(0) == 0 
+        || regexList.get(1) > 12 
+        || regexList.get(1) == 0){
+      b3 = false;
+    }
+    return b3;    
+  }
+
 }
